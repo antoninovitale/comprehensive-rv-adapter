@@ -27,10 +27,9 @@ android {
         }
 
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             debuggable false
-            consumerProguardFiles 'proguard-rules.pro'
         }
     }
 
@@ -42,6 +41,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -49,4 +52,33 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
+}
+
+task sourcesJar(type: Jar) {
+    def archiveClassifier = getArchiveClassifier()
+    archiveClassifier.convention('sources')
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.sourceFiles
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    def archiveClassifier = getArchiveClassifier()
+    archiveClassifier.convention('javadoc')
+    archiveClassifier.set('javadoc')
+    from javadoc.destinationDir
+}
+
+task classesJar(type: Jar) {
+    from "$buildDir/intermediates/classes/release"
+}
+
+artifacts {
+    archives classesJar
+    archives javadocJar
+    archives sourcesJar
 }
