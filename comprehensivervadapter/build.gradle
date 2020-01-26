@@ -2,47 +2,51 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../config.gradle'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = group_name
+version = version_name
 
 android {
-  compileSdkVersion compile_sdk_version
-  buildToolsVersion build_tools_version
+    compileSdkVersion compile_sdk_version
+    buildToolsVersion build_tools_version
 
-  defaultConfig {
-    minSdkVersion min_sdk_version
-    targetSdkVersion target_sdk_version
-    multiDexEnabled true
-    versionCode version_code
-    versionName version_name
-  }
-
-  buildTypes {
-    debug {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
-      debuggable true
-      testCoverageEnabled = false
+    defaultConfig {
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        multiDexEnabled true
+        versionCode version_code
+        versionName version_name
     }
 
-    release {
-      minifyEnabled true
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
-      debuggable false
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+            debuggable true
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+            debuggable false
+            consumerProguardFiles 'proguard-rules.pro'
+        }
     }
-  }
 
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_1_8.toString()
-  }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
-  implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
-  implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+    implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
+    implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
 }

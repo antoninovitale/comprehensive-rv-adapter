@@ -1,2 +1,2 @@
 include ':app', ':comprehensivervadapter'
-rootProject.name='ComprehensiveRvAdapter'
+rootProject.name='comprehensive-rv-adapter'
